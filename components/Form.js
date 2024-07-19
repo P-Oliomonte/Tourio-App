@@ -1,29 +1,6 @@
 import styled from "styled-components";
 import { StyledButton } from "./StyledButton.js";
 
-const FormContainer = styled.form`
-  display: grid;
-  gap: 0.5rem;
-`;
-
-const Input = styled.input`
-  padding: 0.5rem;
-  font-size: inherit;
-  border: 3px solid black;
-  border-radius: 0.5rem;
-`;
-
-const Textarea = styled.textarea`
-  font-family: inherit;
-  border: 3px solid black;
-  border-radius: 0.5rem;
-  padding: 0.5rem;
-`;
-
-const Label = styled.label`
-  font-weight: bold;
-`;
-
 export default function Form({ onSubmit, formName, defaultData }) {
   function handleSubmit(event) {
     event.preventDefault();
@@ -76,3 +53,26 @@ export default function Form({ onSubmit, formName, defaultData }) {
     </FormContainer>
   );
 }
+
+const FormContainer = styled.form`
+  display: grid;
+  gap: 0.5rem;
+`;
+
+const Input = styled.input`
+  padding: 0.5rem;
+  font-size: inherit;
+  border: 3px solid black;
+  border-radius: 0.5rem;
+`;
+
+const Textarea = styled.textarea`
+  font-family: inherit;
+  border: 3px solid black;
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+`;
+
+const Label = styled.label`
+  font-weight: bold;
+`;

@@ -4,6 +4,36 @@ import useSWR from "swr";
 import Link from "next/link.js";
 import { StyledLink } from "../components/StyledLink.js";
 
+export default function Home() {
+  const { data: places, isLoading } = useSWR("/api/places");
+
+  if (isLoading || !places) return <h1>Loading...</h1>;
+
+  console.log(places);
+
+  return (
+    <>
+      <List role="list">
+        {places.map((place) => {
+          return (
+            <ListItem key={place._id}>
+              <Card
+                name={place.name}
+                image={place.image}
+                location={place.location}
+                id={place._id}
+              />
+            </ListItem>
+          );
+        })}
+      </List>
+      <Link href="/create" passHref legacyBehavior>
+        <FixedLink>+ place</FixedLink>
+      </Link>
+    </>
+  );
+}
+
 const List = styled.ul`
   list-style: none;
   display: flex;
@@ -22,28 +52,3 @@ const FixedLink = styled(StyledLink)`
   bottom: 50px;
   right: 50px;
 `;
-export default function Home() {
-  const { data } = useSWR("/api/places", { fallbackData: [] });
-
-  return (
-    <>
-      <List role="list">
-        {data.map((place) => {
-          return (
-            <ListItem key={place.id}>
-              <Card
-                name={place.name}
-                image={place.image}
-                location={place.location}
-                id={place.id}
-              />
-            </ListItem>
-          );
-        })}
-      </List>
-      <Link href="/create" passHref legacyBehavior>
-        <FixedLink>+ place</FixedLink>
-      </Link>
-    </>
-  );
-}

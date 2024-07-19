@@ -6,28 +6,6 @@ import { StyledLink } from "../../../components/StyledLink.js";
 import { StyledButton } from "../../../components/StyledButton.js";
 import { StyledImage } from "../../../components/StyledImage.js";
 
-const ImageContainer = styled.div`
-  position: relative;
-  height: 15rem;
-`;
-
-const ButtonContainer = styled.section`
-  display: flex;
-  justify-content: space-between;
-  gap: 0.2rem;
-
-  & > * {
-    flex-grow: 1;
-    text-align: center;
-  }
-`;
-
-const StyledLocationLink = styled(StyledLink)`
-  text-align: center;
-  background-color: white;
-  border: 3px solid lightsalmon;
-`;
-
 export default function DetailsPage() {
   const router = useRouter();
   const { isReady } = router;
@@ -37,8 +15,14 @@ export default function DetailsPage() {
 
   if (!isReady || isLoading || error) return <h2>Loading...</h2>;
 
-  function deletePlace() {
-    console.log("deleted?");
+  async function deletePlace() {
+    const response = await fetch(`/api/places/${id}`, {
+      method: "DELETE",
+    });
+
+    if (response.ok) {
+      router.push("/");
+    }
   }
 
   return (
@@ -75,3 +59,25 @@ export default function DetailsPage() {
     </>
   );
 }
+
+const ImageContainer = styled.div`
+  position: relative;
+  height: 15rem;
+`;
+
+const ButtonContainer = styled.section`
+  display: flex;
+  justify-content: space-between;
+  gap: 0.2rem;
+
+  & > * {
+    flex-grow: 1;
+    text-align: center;
+  }
+`;
+
+const StyledLocationLink = styled(StyledLink)`
+  text-align: center;
+  background-color: white;
+  border: 3px solid lightsalmon;
+`;

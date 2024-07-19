@@ -1,17 +1,32 @@
-import { places } from "../../../../lib/db.js";
+import dbConnect from "@/db/connect";
+import Place from "@/db/models/Place";
 
-export default function handler(request, response) {
+export default async function handler(request, response) {
+  await dbConnect();
+
   const { id } = request.query;
 
-  if (!id) {
-    return;
+  if (request.method === "GET") {
+    try {
+      const place = await Place.findById(id);
+      return response.status(200).json(place);
+    } catch (error) {
+      return response.status(400).json({ error: error.message });
+    }
+  } else if (request.method === "PATCH") {
+    try {
+      const editedPlace = request.body;
+      await Place.findByIdAndUpdate(id, editedPlace);
+      return response.status(200).json({ status: "Place updated" });
+    } catch (error) {
+      return response.status(400).json({ error: error.message });
+    }
+  } else if (request.method === "DELETE") {
+    try {
+    } catch (error) {
+      return response.status(400).json({ error: error.message });
+    }
+    await Place.findByIdAndDelete(id);
+    return response.status(200).json({ status: "Place deleted" });
   }
-
-  const place = places.find((place) => place.id === id);
-
-  if (!place) {
-    return response.status(404).json({ status: "Not found" });
-  }
-
-  response.status(200).json(place);
 }
