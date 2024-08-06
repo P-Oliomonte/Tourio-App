@@ -9,8 +9,6 @@ export default function Home() {
 
   if (isLoading || !places) return <h1>Loading...</h1>;
 
-  console.log(places);
-
   return (
     <>
       <List role="list">
